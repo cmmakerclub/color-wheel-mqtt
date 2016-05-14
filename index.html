@@ -306,6 +306,7 @@
             });
 
             var handleStart = function (evt) {
+                evt.preventDefault();
                 bCanPreview = true;
                 log("handleStart");
             };
@@ -317,11 +318,13 @@
             };
 
             var handleEnd = function (evt) {
+                evt.preventDefault();
                 log("handleEnd");
                 bCanPreview = false;
             };
 
             var handleCancel = function (evt) {
+                evt.preventDefault();
                 log("handleCancel");
             };
 
