@@ -46,6 +46,7 @@
             clear: both;
             margin: 0 0 30px 0;
             border: 0;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
 
         .controls {
@@ -125,6 +126,7 @@
             /*overflow: hidden;*/
             /*width: auto;*/
         }
+
 
 
     </style>
@@ -342,7 +344,7 @@
                     el.removeEventListener("touchleave", handleEnd);
 //                    el.removeEventListener("touchmove", handleMove);
 
-                    el.addEventListener("touchstart", handleStart, false);
+                    el.addEventListener("touchstart", handleStart, true);
                     el.addEventListener("touchend", handleEnd, false);
                     el.addEventListener("touchcancel", handleCancel, false);
                     el.addEventListener("touchleave", handleEnd, false);
