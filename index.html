@@ -158,6 +158,9 @@
         window.log = function () {
 //            var log = Function.prototype.bind.call(console.log, console);
 //            log.apply(console, arguments);
+            if(this.console){
+                console.log( Array.prototype.slice.call(arguments) );
+            }
         }
     </script>
 
