@@ -156,9 +156,8 @@
         }
 
         window.log = function () {
-//            var console = window.console && { log: function() { return "no console."; } };
-            var log = Function.prototype.bind.call(console.log, console);
-            log.apply(console, arguments);
+//            var log = Function.prototype.bind.call(console.log, console);
+//            log.apply(console, arguments);
         }
     </script>
 
