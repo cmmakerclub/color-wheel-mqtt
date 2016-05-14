@@ -335,13 +335,13 @@
                     el.removeEventListener("touchend", handleEnd);
                     el.removeEventListener("touchcancel", handleCancel);
                     el.removeEventListener("touchleave", handleEnd);
-                    el.removeEventListener("touchmove", handleMove);
+//                    el.removeEventListener("touchmove", handleMove);
 
                     el.addEventListener("touchstart", handleStart, false);
                     el.addEventListener("touchend", handleEnd, false);
                     el.addEventListener("touchcancel", handleCancel, false);
                     el.addEventListener("touchleave", handleEnd, false);
-                    el.addEventListener("touchmove", handleMove, false);
+//                    el.addEventListener("touchmove", handleMove, false);
                     log('iOS');
                 }
                 log("initialized.");
