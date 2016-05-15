@@ -168,13 +168,3 @@ var fnGenerator = function (pickerSelector, previewSelector) {
 
 };
 
-
-$(document).ready(function () {
-    init();
-    setTimeout(function () {
-        $(fnGenerator('#picker1', '.preview1'));
-        $(fnGenerator('#picker2', '.preview2'));
-        $(fnGenerator('#picker3', '.preview3'));
-    }, 10);
-});
-
