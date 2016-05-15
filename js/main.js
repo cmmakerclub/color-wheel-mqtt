@@ -2,6 +2,44 @@
  *
  * Created by Nat on 5/15/2016 AD.
  */
+
+
+var wsbroker = "mqtt.espert.io";  //mqtt websocket enabled broker
+var wsport = 8000 // port for above
+client = new Paho.MQTT.Client(wsbroker, wsport,
+    "myclientid_" + parseInt(Math.random() * 100, 10));
+
+client.onConnectionLost = function (responseObject) {
+    log("connection lost: " + responseObject.errorMessage);
+    $('#mqtt_status').text("disconnected");
+};
+client.onMessageArrived = function (message) {
+    log(message.destinationName, ' -- ', message.payloadString);
+};
+var options = {
+    timeout: 10,
+    onSuccess: function () {
+        log("mqtt connected");
+        $('#mqtt_status').text("connected");
+        //alert("mqtt connected");
+    },
+    onFailure: function (message) {
+        log("Connection failed: " + message.errorMessage);
+        $('#mqtt_status').text("connect failed");
+    }
+};
+
+function init() {
+    $('#mqtt_status').text("connecting..");
+    client.connect(options);
+}
+
+window.log = function () {
+    if (this.console) {
+        console.log(Array.prototype.slice.call(arguments));
+    }
+}
+
 function findPos(obj) {
     var curleft = 0,
         curtop = 0;
