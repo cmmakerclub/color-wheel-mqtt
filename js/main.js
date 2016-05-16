@@ -6,22 +6,24 @@
 
 var wsbroker = "mqtt.espert.io";  //mqtt websocket enabled broker
 var wsport = 8000 // port for above
-client = new Paho.MQTT.Client(wsbroker, wsport,
+
+var client = new Paho.MQTT.Client(wsbroker, wsport,
     "myclientid_" + parseInt(Math.random() * 100, 10));
 
 client.onConnectionLost = function (responseObject) {
     log("connection lost: " + responseObject.errorMessage);
     $('#mqtt_status').text("disconnected");
 };
+
 client.onMessageArrived = function (message) {
     log(message.destinationName, ' -- ', message.payloadString);
 };
+
 var options = {
     timeout: 10,
     onSuccess: function () {
         log("mqtt connected");
         $('#mqtt_status').text("connected");
-        //alert("mqtt connected");
     },
     onFailure: function (message) {
         log("Connection failed: " + message.errorMessage);
@@ -29,30 +31,16 @@ var options = {
     }
 };
 
-function init() {
+window.init = function () {
     $('#mqtt_status').text("connecting..");
     client.connect(options);
-}
+};
 
 window.log = function () {
     if (this.console) {
         console.log(Array.prototype.slice.call(arguments));
     }
-}
-
-function findPos(obj) {
-    var curleft = 0,
-        curtop = 0;
-
-    if (obj.offsetParent) {
-        do {
-            curleft += obj.offsetLeft;
-            curtop += obj.offsetTop;
-        } while (obj = obj.offsetParent);
-
-        return {x: curleft - document.body.scrollLeft, y: curtop - document.body.scrollTop};
-    }
-}
+};
 
 var fnGenerator = function (pickerSelector, previewSelector) {
     var fn = function () {
@@ -138,10 +126,8 @@ var fnGenerator = function (pickerSelector, previewSelector) {
             data.G = $('#gVal').val();
             data.B = $('#bVal').val();
 
-//                log("DIRTY?: ", _R+_G+_B, data.R + data.G + data.B);
-
-            if (_R + _G + _B != data.R + data.G + data.B) {
-                log("published: ");
+            if ((_R + _G + _B) != (data.R + data.G + data.B)) {
+                log("published: ", data);
                 message = new Paho.MQTT.Message(JSON.stringify(data));
                 message.destinationName = "/qrx/" + pickerSelector.split("#picker")[1];
                 client.send(message);
@@ -154,26 +140,26 @@ var fnGenerator = function (pickerSelector, previewSelector) {
         });
 
         var handleStart = function (evt) {
+            log("handleStart");
             evt.preventDefault();
             bCanPreview = true;
-            log("handleStart");
         };
 
         var handleMove = function (evt) {
-            evt.preventDefault();
             log("handleMove");
+            evt.preventDefault();
             moveEvent(evt);
         };
 
         var handleEnd = function (evt) {
-            evt.preventDefault();
             log("handleEnd");
+            evt.preventDefault();
             bCanPreview = false;
         };
 
         var handleCancel = function (evt) {
-            evt.preventDefault();
             log("handleCancel");
+            evt.preventDefault();
         };
 
         function startup() {
@@ -186,19 +172,20 @@ var fnGenerator = function (pickerSelector, previewSelector) {
                 el.removeEventListener("touchend", handleEnd);
                 el.removeEventListener("touchcancel", handleCancel);
                 el.removeEventListener("touchleave", handleEnd);
-//                    el.removeEventListener("touchmove", handleMove);
 
                 el.addEventListener("touchstart", handleStart, true);
                 el.addEventListener("touchend", handleEnd, false);
                 el.addEventListener("touchcancel", handleCancel, false);
                 el.addEventListener("touchleave", handleEnd, false);
-//                    el.addEventListener("touchmove", handleMove, false);
+
+                //el.removeEventListener("touchmove", handleMove);
+                //el.addEventListener("touchmove", handleMove, false);
                 log('iOS');
             }
             log("initialized.");
         }
 
-//            startup();
+        //startup();
     };
 
 
